@@ -61,12 +61,11 @@ func (s *Service) GetAccount(w http.ResponseWriter, r *http.Request) {
 	err := s.storageAccount.GetAccount(id, account)
 
 	if err != nil {
-		TrowResourceNotFoundError(w)
+		TrowError(w, http.StatusNotFound, ErroNotFound)
 		return
 	}
 
-	SetStatusCode(w, http.StatusOK)
-	SetJsonEncoder(w, account)
+	TrowSucess(w, types.SucessResponse{Sucess: true, Data: account})
 }
 
 func (s *Service) CreateAccounts(w http.ResponseWriter, r *http.Request) {
@@ -83,7 +82,7 @@ func (s *Service) CreateAccounts(w http.ResponseWriter, r *http.Request) {
 	s.storageAccount.GetAccount(id, &accountExistintent)
 
 	if !reflect.ValueOf(accountExistintent).IsZero() {
-		TrowResourceExistentError(w)
+		TrowError(w, http.StatusUnprocessableEntity, ErrorResourceExist)
 		return
 	}
 
@@ -93,19 +92,18 @@ func (s *Service) CreateAccounts(w http.ResponseWriter, r *http.Request) {
 	err := s.storageAccount.CreateAccount(account)
 
 	if err != nil {
-		TrowFatalError(w)
+		TrowError(w, http.StatusInternalServerError, ErroInesperado)
 		return
 	}
 
-	SetStatusCode(w, http.StatusOK)
-	SetJsonEncoder(w, account)
+	TrowSucess(w, types.SucessResponse{Sucess: true, Data: account})
 }
 
 func (s *Service) GetAllAccounts(w http.ResponseWriter, r *http.Request) {
 	accounts, err := s.storageAccount.GetAllAccounts()
 
 	if err != nil {
-		TrowFatalError(w)
+		TrowError(w, http.StatusInternalServerError, ErroInesperado)
 		return
 	}
 	var accountsJson []types.Account
@@ -115,30 +113,24 @@ func (s *Service) GetAllAccounts(w http.ResponseWriter, r *http.Request) {
 
 		err = json.Unmarshal([]byte(account), accountJson)
 		if err != nil {
-			TrowFatalError(w)
+			TrowError(w, http.StatusInternalServerError, ErroInesperado)
 			return
 		}
 
 		accountsJson = append(accountsJson, *accountJson)
 	}
 
+	TrowSucess(w, types.SucessResponse{Sucess: true, Data: accountsJson})
+}
+
+func TrowError(w http.ResponseWriter, statusCode int, Error interface{}) {
+	SetStatusCode(w, statusCode)
+	SetJsonEncoder(w, types.ErrorResponse{Error: Error})
+}
+
+func TrowSucess(w http.ResponseWriter, Data interface{}) {
 	SetStatusCode(w, http.StatusOK)
-	SetJsonEncoder(w, accountsJson)
-}
-
-func TrowFatalError(w http.ResponseWriter) {
-	SetStatusCode(w, http.StatusInternalServerError)
-	SetJsonEncoder(w, types.ErrorResponse{Error: ErroInesperado})
-}
-
-func TrowResourceExistentError(w http.ResponseWriter) {
-	SetStatusCode(w, http.StatusUnprocessableEntity)
-	SetJsonEncoder(w, types.ErrorResponse{Error: ErrorResourceExist})
-}
-
-func TrowResourceNotFoundError(w http.ResponseWriter) {
-	SetStatusCode(w, http.StatusNotFound)
-	SetJsonEncoder(w, types.ErrorResponse{Error: ErroNotFound})
+	SetJsonEncoder(w, Data)
 }
 
 func SetStatusCode(w http.ResponseWriter, status int) {

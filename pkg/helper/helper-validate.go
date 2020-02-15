@@ -12,20 +12,6 @@ import (
 	"unicode"
 )
 
-const (
-	AttributeID        = "id"
-	AttrinuteName      = "name"
-	AttrinuteCPF       = "cpf"
-	AttributeBallance  = "ballance"
-	AttributeCreatedAt = "created_at"
-	ValidationRequired = "validation.required"
-	ValidationFormat   = "validation.format_invalid"
-	ValidationAlpha    = "validation.alpha_invalid"
-	ValidationFloat    = "validation.float_invalid"
-	ValidationNumeric  = "validation.numeric_invalid"
-	ValidationDate     = "validation.date_invalid"
-)
-
 func InitCustomRule() {
 	govalidator.AddCustomRule("cpf", func(field string, rule string, message string, value interface{}) error {
 		val := value.(string)
@@ -43,12 +29,6 @@ func InitCustomRule() {
 
 func ValidateJsonRequest(w http.ResponseWriter, r *http.Request, rules map[string][]string, messages govalidator.MapData) *types.Account {
 	var account types.Account
-	/*opts := govalidator.Options{
-		Request:         r,        // request object
-		Rules:           rules,    // rules map
-		Messages:        messages, // custom message map (Optional)
-		RequiredDefault: true,     // all the field to be pass the rules
-	}*/
 
 	opts := govalidator.Options{
 		Request: r,
@@ -62,7 +42,6 @@ func ValidateJsonRequest(w http.ResponseWriter, r *http.Request, rules map[strin
 	e := v.ValidateJSON()
 
 	if len(e) > 0 {
-		//_ := map[string]interface{}{"validationError": e}
 		w.Header().Set("Content-type", "application/json")
 		w.WriteHeader(http.StatusUnprocessableEntity)
 		json.NewEncoder(w).Encode(types.ErrorResponse{Error:e})
