@@ -3,6 +3,7 @@ package service
 import (
 	"encoding/base64"
 	"encoding/json"
+	"github.com/gorilla/mux"
 	"github.com/luannevesb/challenge-stone-accounts/internal/types"
 	"github.com/thedevsaddam/govalidator"
 	"github.com/luannevesb/challenge-stone-accounts/pkg/pkg/helper"
@@ -50,8 +51,22 @@ func NewService(storageAccount types.StorageAccount) *Service {
 		storageAccount: storageAccount,
 	}
 }
+
 func (s *Service) GetAccount(w http.ResponseWriter, r *http.Request) {
-	//TODO GetAccount
+	params := mux.Vars(r)
+	id := params["id"]
+
+	account := &types.Account{}
+
+	err := s.storageAccount.GetAccount(id, account)
+
+	if err != nil {
+		TrowResourceNotFoundError(w)
+		return
+	}
+
+	SetStatusCode(w, http.StatusOK)
+	SetJsonEncoder(w, account)
 }
 
 func (s *Service) CreateAccounts(w http.ResponseWriter, r *http.Request) {
@@ -98,6 +113,11 @@ func TrowFatalError(w http.ResponseWriter) {
 func TrowResourceExistentError(w http.ResponseWriter) {
 	SetStatusCode(w, http.StatusUnprocessableEntity)
 	SetJsonEncoder(w, types.ErrorResponse{Error: ErrorResourceExist})
+}
+
+func TrowResourceNotFoundError(w http.ResponseWriter) {
+	SetStatusCode(w, http.StatusNotFound)
+	SetJsonEncoder(w, types.ErrorResponse{Error: ErroNotFound})
 }
 
 func SetStatusCode(w http.ResponseWriter, status int) {
