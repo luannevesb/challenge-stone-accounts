@@ -7,3 +7,9 @@ type Account struct {
 	Ballance  float64     `json:"ballance"`
 	CreatedAt interface{} `json:"created_at"`
 }
+
+type StorageAccount interface {
+	CreateAccount(account *Account) error
+	GetAccount(id string, account *Account) error
+	GetAllAccounts() ([]string, error)
+}
