@@ -5,8 +5,8 @@ import (
 	"encoding/json"
 	"github.com/gorilla/mux"
 	"github.com/luannevesb/challenge-stone-accounts/internal/types"
+	"github.com/luannevesb/challenge-stone-accounts/pkg/helper"
 	"github.com/thedevsaddam/govalidator"
-	"github.com/luannevesb/challenge-stone-accounts/pkg/pkg/helper"
 	"net/http"
 	"reflect"
 	"time"
@@ -17,10 +17,10 @@ const (
 	AttrinuteName      = "name"
 	AttrinuteCPF       = "cpf"
 	AttributeBallance  = "ballance"
-	dateLayout = "2006-01-02"
+	dateLayout         = "2006-01-02"
 	AttributeCreatedAt = "created_at"
 	ErroInesperado     = "Erro Inesperado"
-	ErroNotFound	   = "Conta não encontrada"
+	ErroNotFound       = "Conta não encontrada"
 	ErrorResourceExist = "Já existe conta criada com esse CPF"
 )
 
@@ -33,9 +33,9 @@ var ValidateMessagesCreateAccount = govalidator.MapData{
 }
 
 var ValidateRulesCreateAccount = map[string][]string{
-	AttrinuteName:      {"required", "alpha"},
-	AttrinuteCPF:       {"required", "cpf"},
-	AttributeBallance:  {"required", "float"},
+	AttrinuteName:     {"required", "alpha"},
+	AttrinuteCPF:      {"required", "cpf"},
+	AttributeBallance: {"required", "float"},
 }
 
 func init() {
@@ -102,7 +102,28 @@ func (s *Service) CreateAccounts(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *Service) GetAllAccounts(w http.ResponseWriter, r *http.Request) {
-	//TODO GetAllAccounts
+	accounts, err := s.storageAccount.GetAllAccounts()
+
+	if err != nil {
+		TrowFatalError(w)
+		return
+	}
+	var accountsJson []types.Account
+
+	for _, account := range accounts {
+		accountJson := &types.Account{}
+
+		err = json.Unmarshal([]byte(account), accountJson)
+		if err != nil {
+			TrowFatalError(w)
+			return
+		}
+
+		accountsJson = append(accountsJson, *accountJson)
+	}
+
+	SetStatusCode(w, http.StatusOK)
+	SetJsonEncoder(w, accountsJson)
 }
 
 func TrowFatalError(w http.ResponseWriter) {
