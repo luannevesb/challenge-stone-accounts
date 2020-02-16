@@ -29,7 +29,7 @@ func InitCustomRule() {
 }
 
 //Valida a request com o BodyJSON
-func ValidateJsonRequest(w http.ResponseWriter, r *http.Request, rules map[string][]string, messages govalidator.MapData) *types.Account {
+func ValidateJsonRequestAccount(w http.ResponseWriter, r *http.Request, rules map[string][]string, messages govalidator.MapData) *types.Account {
 	var account types.Account
 
 	opts := govalidator.Options{
@@ -51,6 +51,31 @@ func ValidateJsonRequest(w http.ResponseWriter, r *http.Request, rules map[strin
 	}
 
 	return &account
+}
+
+//Valida a request com o BodyJSON
+func ValidateJsonRequestTransfer(w http.ResponseWriter, r *http.Request, rules map[string][]string, messages govalidator.MapData) *types.Transfer {
+	var transfer types.Transfer
+
+	opts := govalidator.Options{
+		Request:         r,
+		Data:            &transfer,
+		Rules:           rules,
+		Messages:        messages,
+		RequiredDefault: true,
+	}
+
+	v := govalidator.New(opts)
+	e := v.ValidateJSON()
+
+	if len(e) > 0 {
+		w.Header().Set("Content-type", "application/json")
+		w.WriteHeader(http.StatusUnprocessableEntity)
+		json.NewEncoder(w).Encode(types.ErrorResponse{Error: e})
+		return nil
+	}
+
+	return &transfer
 }
 
 //Função auxiliar da regra customizada de CPF

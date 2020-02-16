@@ -12,4 +12,5 @@ type StorageAccount interface {
 	CreateAccount(account *Account) error
 	GetAccount(id string, account *Account) error
 	GetAllAccounts() ([]string, error)
+	UpdateAccount(account *Account) error
 }

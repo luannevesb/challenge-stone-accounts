@@ -23,3 +23,10 @@ func (s *AccountStorage) GetAccount(id string, account *types.Account) error {
 func (s *AccountStorage) GetAllAccounts() ([]string, error) {
 	return s.DB.ReadAll("accounts")
 }
+
+//Função responsável por ATUALIZAR uma Account no DB
+func (s *AccountStorage) UpdateAccount(account *types.Account) error {
+	return s.DB.Write("accounts", account.Id, account)
+}
+
+
