@@ -9,14 +9,17 @@ type AccountStorage struct {
 	DB *scribble.Driver
 }
 
-func (s *AccountStorage)CreateAccount(account *types.Account) error {
+//Função responsável por CRIAR Account no DB
+func (s *AccountStorage) CreateAccount(account *types.Account) error {
 	return s.DB.Write("accounts", account.Id, account)
 }
 
-func (s *AccountStorage)GetAccount(id string, account *types.Account) error {
+//Função responsável por BUSCAR Account no DB
+func (s *AccountStorage) GetAccount(id string, account *types.Account) error {
 	return s.DB.Read("accounts", id, account)
 }
 
-func (s *AccountStorage)GetAllAccounts() ([]string, error) {
+//Função responsável por BUSCAR TODAS AS Account no DB
+func (s *AccountStorage) GetAllAccounts() ([]string, error) {
 	return s.DB.ReadAll("accounts")
 }

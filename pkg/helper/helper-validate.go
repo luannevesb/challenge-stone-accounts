@@ -12,6 +12,7 @@ import (
 	"unicode"
 )
 
+//Adiciona a Regra Customizada de CPF no goValidator
 func InitCustomRule() {
 	govalidator.AddCustomRule("cpf", func(field string, rule string, message string, value interface{}) error {
 		val := value.(string)
@@ -27,15 +28,16 @@ func InitCustomRule() {
 	})
 }
 
+//Valida a request com o BodyJSON
 func ValidateJsonRequest(w http.ResponseWriter, r *http.Request, rules map[string][]string, messages govalidator.MapData) *types.Account {
 	var account types.Account
 
 	opts := govalidator.Options{
-		Request: r,
-		Data:    &account,
-		Rules:   rules,
-		Messages:messages,
-		RequiredDefault:true,
+		Request:         r,
+		Data:            &account,
+		Rules:           rules,
+		Messages:        messages,
+		RequiredDefault: true,
 	}
 
 	v := govalidator.New(opts)
@@ -44,13 +46,14 @@ func ValidateJsonRequest(w http.ResponseWriter, r *http.Request, rules map[strin
 	if len(e) > 0 {
 		w.Header().Set("Content-type", "application/json")
 		w.WriteHeader(http.StatusUnprocessableEntity)
-		json.NewEncoder(w).Encode(types.ErrorResponse{Error:e})
+		json.NewEncoder(w).Encode(types.ErrorResponse{Error: e})
 		return nil
 	}
 
 	return &account
 }
 
+//Função auxiliar da regra customizada de CPF
 func isCPF(doc string) bool {
 
 	const (
@@ -66,8 +69,7 @@ func isCPF(doc string) bool {
 	)
 }
 
-// ValidateCPFFormat verifies if the CPF has a
-// valid format.
+//Função auxiliar da regra customizada de CPF
 func validateCPFFormat(doc string) bool {
 
 	const (
@@ -77,6 +79,7 @@ func validateCPFFormat(doc string) bool {
 	return regexp.MustCompile(pattern).MatchString(doc)
 }
 
+//Função auxiliar da regra customizada de CPF
 func isCPFOrCNPJ(doc string, validate func(string) bool, size int, position int) bool {
 
 	if !validate(doc) {
@@ -103,7 +106,7 @@ func isCPFOrCNPJ(doc string, validate func(string) bool, size int, position int)
 	return doc == d+digit
 }
 
-// clean removes every rune that is not a digit.
+//Função auxiliar da regra customizada de CPF
 func clean(doc *string) {
 
 	buf := bytes.NewBufferString("")
@@ -116,8 +119,7 @@ func clean(doc *string) {
 	*doc = buf.String()
 }
 
-// allEq checks if every rune in a given string
-// is equal.
+//Função auxiliar da regra customizada de CPF
 func allEq(doc string) bool {
 
 	base := doc[0]
@@ -130,8 +132,7 @@ func allEq(doc string) bool {
 	return true
 }
 
-// calculateDigit calculates the next digit for
-// the given document.
+//Função auxiliar da regra customizada de CPF
 func calculateDigit(doc string, position int) string {
 
 	var sum int

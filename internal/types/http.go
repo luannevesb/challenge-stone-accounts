@@ -5,6 +5,6 @@ type ErrorResponse struct {
 }
 
 type SucessResponse struct {
-	Sucess bool `json:"sucess"`
+	Sucess bool        `json:"sucess"`
 	Data   interface{} `json:"data"`
 }

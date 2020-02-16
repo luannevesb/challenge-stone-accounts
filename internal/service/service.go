@@ -39,6 +39,7 @@ var ValidateRulesCreateAccount = map[string][]string{
 }
 
 func init() {
+	//Cria a regra customizada de CPF
 	helper.InitCustomRule()
 }
 
@@ -52,7 +53,9 @@ func NewService(storageAccount types.StorageAccount) *Service {
 	}
 }
 
+//Retorna as informações da Account de acordo com o ID ou retorna 404
 func (s *Service) GetAccount(w http.ResponseWriter, r *http.Request) {
+	//Recebe os parâmetros da request e seleciona o ID
 	params := mux.Vars(r)
 	id := params["id"]
 
@@ -68,28 +71,38 @@ func (s *Service) GetAccount(w http.ResponseWriter, r *http.Request) {
 	TrowSucess(w, types.SucessResponse{Sucess: true, Data: account})
 }
 
-func (s *Service) CreateAccounts(w http.ResponseWriter, r *http.Request) {
+//Cria uma nova Account e retorna se existe account com esse CPF
+func (s *Service) CreateAccount(w http.ResponseWriter, r *http.Request) {
+	//Validação da request para os campos obrigatórios e o CPF
 	account := helper.ValidateJsonRequest(w, r, ValidateRulesCreateAccount, ValidateMessagesCreateAccount)
 
 	if account == nil {
 		return
 	}
 
+	//Usando um base64 do CPF como ID já que não podem existir duas contas com o mesmo CPF
 	id := base64.StdEncoding.EncodeToString([]byte(account.Cpf))
 
 	var accountExistintent = types.Account{}
 
-	s.storageAccount.GetAccount(id, &accountExistintent)
+	err := s.storageAccount.GetAccount(id, &accountExistintent)
 
+	//Se já existe uma conta com esse CPF retorna 422
 	if !reflect.ValueOf(accountExistintent).IsZero() {
 		TrowError(w, http.StatusUnprocessableEntity, ErrorResourceExist)
 		return
 	}
 
+	if err != nil {
+		TrowError(w, http.StatusInternalServerError, ErroInesperado)
+		return
+	}
+
+	//Se não existe ele cria uma nova com o Created_at now()
 	account.Id = id
 	account.CreatedAt = time.Now().Format(dateLayout)
 
-	err := s.storageAccount.CreateAccount(account)
+	err = s.storageAccount.CreateAccount(account)
 
 	if err != nil {
 		TrowError(w, http.StatusInternalServerError, ErroInesperado)
@@ -99,6 +112,7 @@ func (s *Service) CreateAccounts(w http.ResponseWriter, r *http.Request) {
 	TrowSucess(w, types.SucessResponse{Sucess: true, Data: account})
 }
 
+//Retorna as informações de todas as contas se não existir retorna []
 func (s *Service) GetAllAccounts(w http.ResponseWriter, r *http.Request) {
 	accounts, err := s.storageAccount.GetAllAccounts()
 
@@ -106,12 +120,14 @@ func (s *Service) GetAllAccounts(w http.ResponseWriter, r *http.Request) {
 		TrowError(w, http.StatusInternalServerError, ErroInesperado)
 		return
 	}
+
 	var accountsJson []types.Account
 
 	for _, account := range accounts {
 		accountJson := &types.Account{}
 
 		err = json.Unmarshal([]byte(account), accountJson)
+
 		if err != nil {
 			TrowError(w, http.StatusInternalServerError, ErroInesperado)
 			return
@@ -123,21 +139,25 @@ func (s *Service) GetAllAccounts(w http.ResponseWriter, r *http.Request) {
 	TrowSucess(w, types.SucessResponse{Sucess: true, Data: accountsJson})
 }
 
+//Retorna um Erro de acordo com o formato passado e com o StatusCode informado
 func TrowError(w http.ResponseWriter, statusCode int, Error interface{}) {
 	SetStatusCode(w, statusCode)
 	SetJsonEncoder(w, types.ErrorResponse{Error: Error})
 }
 
+//Retorna Sucesso com o Data informado
 func TrowSucess(w http.ResponseWriter, Data interface{}) {
 	SetStatusCode(w, http.StatusOK)
 	SetJsonEncoder(w, Data)
 }
 
+//Seta o StatusCode no Writer
 func SetStatusCode(w http.ResponseWriter, status int) {
 	w.Header().Set("Content-type", "application/json")
 	w.WriteHeader(status)
 }
 
+//Seta um Novo Encoder no Writer
 func SetJsonEncoder(w http.ResponseWriter, data interface{}) {
 	json.NewEncoder(w).Encode(data)
 }
