@@ -44,12 +44,14 @@ func init() {
 }
 
 type Service struct {
-	storageAccount types.StorageAccount
+	storageAccount  types.StorageAccount
+	storageTransfer types.StorageTransfer
 }
 
-func NewService(storageAccount types.StorageAccount) *Service {
+func NewService(storageAccount types.StorageAccount, storageTransfer types.StorageTransfer) *Service {
 	return &Service{
-		storageAccount: storageAccount,
+		storageAccount:  storageAccount,
+		storageTransfer: storageTransfer,
 	}
 }
 
@@ -137,6 +139,14 @@ func (s *Service) GetAllAccounts(w http.ResponseWriter, r *http.Request) {
 	}
 
 	TrowSucess(w, types.SucessResponse{Sucess: true, Data: accountsJson})
+}
+
+func (s *Service) CreateTransfer(w http.ResponseWriter, r *http.Request) {
+	//TODO CreateTransfer
+}
+
+func (s *Service) GetAllTransfers(w http.ResponseWriter, r *http.Request) {
+	//TODO GetAllTransfers
 }
 
 //Retorna um Erro de acordo com o formato passado e com o StatusCode informado

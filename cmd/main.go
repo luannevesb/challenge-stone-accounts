@@ -12,10 +12,13 @@ func main() {
 	storage := storage.NewStorage()
 
 	//Cria a instância do Model de Account
-	storageAccout := &model.AccountStorage{DB: storage}
+	storageAccount := &model.AccountStorage{DB: storage}
+
+	//Cria a instância do Model de Transfer
+	storageTransfer := &model.TransfersStorage{DB: storage}
 
 	//Cria a instância de um novo Service passando os models
-	service := service.NewService(storageAccout)
+	service := service.NewService(storageAccount, storageTransfer)
 
 	//Cria a instância das rotas do serviço
 	http.InitRouter(service)
