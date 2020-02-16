@@ -4,7 +4,7 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"github.com/gorilla/mux"
-	"github.com/luannevesb/challenge-stone-accounts/internal/types"
+	"github.com/luannevesb/challenge-stone-accounts/internal/stone-app/types"
 	"github.com/luannevesb/challenge-stone-accounts/pkg/helper"
 	"github.com/thedevsaddam/govalidator"
 	"net/http"

@@ -1,10 +1,10 @@
 package main
 
 import (
-	"github.com/luannevesb/challenge-stone-accounts/internal/provider/http"
-	"github.com/luannevesb/challenge-stone-accounts/internal/service"
-	"github.com/luannevesb/challenge-stone-accounts/internal/storage"
-	"github.com/luannevesb/challenge-stone-accounts/internal/storage/model"
+	"github.com/luannevesb/challenge-stone-accounts/internal/stone-app/provider/http"
+	"github.com/luannevesb/challenge-stone-accounts/internal/stone-app/service"
+	"github.com/luannevesb/challenge-stone-accounts/internal/stone-app/storage"
+	"github.com/luannevesb/challenge-stone-accounts/internal/stone-app/storage/model"
 )
 
 func main() {

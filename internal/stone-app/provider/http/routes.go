@@ -2,7 +2,7 @@ package http
 
 import (
 	"github.com/gorilla/mux"
-	"github.com/luannevesb/challenge-stone-accounts/internal/service"
+	"github.com/luannevesb/challenge-stone-accounts/internal/stone-app/service"
 	"log"
 	"net/http"
 )

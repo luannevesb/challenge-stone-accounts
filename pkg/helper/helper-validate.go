@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"github.com/luannevesb/challenge-stone-accounts/internal/types"
+	"github.com/luannevesb/challenge-stone-accounts/internal/stone-app/types"
 	"github.com/thedevsaddam/govalidator"
 	"net/http"
 	"regexp"

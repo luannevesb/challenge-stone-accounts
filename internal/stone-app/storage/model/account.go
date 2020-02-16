@@ -1,7 +1,7 @@
 package model
 
 import (
-	"github.com/luannevesb/challenge-stone-accounts/internal/types"
+	"github.com/luannevesb/challenge-stone-accounts/internal/stone-app/types"
 	scribble "github.com/nanobox-io/golang-scribble"
 )
 
