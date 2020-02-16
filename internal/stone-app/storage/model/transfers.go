@@ -15,6 +15,6 @@ func (s *TransfersStorage) CreateTransfer(transfer *types.Transfer) error {
 }
 
 //Função responsável por BUSCAR TODAS AS Transfers no DB
-func (s *TransfersStorage) GetAllTranfers() ([]string, error) {
+func (s *TransfersStorage) GetAllTransfers() ([]string, error) {
 	return s.DB.ReadAll("transfers")
 }

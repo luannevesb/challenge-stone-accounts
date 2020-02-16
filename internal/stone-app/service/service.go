@@ -42,9 +42,9 @@ var ValidateRulesCreateAccount = map[string][]string{
 }
 
 var ValidateMessagesCreateTransfer = govalidator.MapData{
-	AttributeAccountOriginID:      {"required:O campo é obrigatório",},
-	AttributeAccountDestinationID: {"required:O campo é obrigatório",},
-	AttributeAmount:               {"required:O campo é obrigatório","float: O campo tem formato inválido",},
+	AttributeAccountOriginID:      {"required:O campo é obrigatório"},
+	AttributeAccountDestinationID: {"required:O campo é obrigatório"},
+	AttributeAmount:               {"required:O campo é obrigatório","float: O campo tem formato inválido"},
 }
 
 var ValidateRulesCreateTransfer = map[string][]string{
@@ -185,7 +185,7 @@ func (s *Service) CreateTransfer(w http.ResponseWriter, r *http.Request) {
 
 	//Atualiza o saldo na conta de origem
 	accountOrigin.Ballance = accountOrigin.Ballance - transfer.Amount
-	s.storageAccount.UpdateAccount(accountOrigin)
+	err = s.storageAccount.UpdateAccount(accountOrigin)
 
 	if err != nil {
 		TrowError(w, http.StatusInternalServerError, ErroInesperado)
@@ -194,7 +194,7 @@ func (s *Service) CreateTransfer(w http.ResponseWriter, r *http.Request) {
 
 	//Atualiza o saldo na conta de destino
 	accountDestination.Ballance = accountDestination.Ballance + transfer.Amount
-	s.storageAccount.UpdateAccount(accountDestination)
+	err = s.storageAccount.UpdateAccount(accountDestination)
 
 	if err != nil {
 		TrowError(w, http.StatusInternalServerError, ErroInesperado)
@@ -215,7 +215,7 @@ func (s *Service) CreateTransfer(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *Service) GetAllTransfers(w http.ResponseWriter, r *http.Request) {
-	transfers, err := s.storageTransfer.GetAllTranfers()
+	transfers, err := s.storageTransfer.GetAllTransfers()
 
 	if err != nil {
 		TrowError(w, http.StatusInternalServerError, ErroInesperado)

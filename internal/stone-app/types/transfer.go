@@ -10,5 +10,5 @@ type Transfer struct {
 
 type StorageTransfer interface {
 	CreateTransfer(transfer *Transfer) error
-	GetAllTranfers() ([]string, error)
+	GetAllTransfers() ([]string, error)
 }
