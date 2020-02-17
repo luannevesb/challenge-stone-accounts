@@ -38,18 +38,17 @@ Depois disso será criado um arquivo chamado "coverage.html", nele você pode ve
 
 No readme do desafio estava pedindo uma rota chamada ***"balance"*** com um "L" só, mas para manter a coerência com o nome do atributo de account, a rota ficou com o nome de ***ballance*** com os dois "L"
 
-| ROTAS                   | VERBOS | PARÂMETROS                                                                                                      | OBJETIVO                                                         |   |
-|-------------------------|--------|-----------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------|---|
-| /accounts               | POST   | { "ballance": - (Obrigatório,float);  "cpf": - (Obrigatório - string - CPF válido); "name": - (Obrigatório - string)} | Rota usada para criação de uma nova conta                        |
+| ROTAS                   | VERBOS | PARÂMETROS                                                                                                      | OBJETIVO                                                         |
+|-------------------------|--------|-----------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------|
+| /accounts               | POST   | { "ballance": - (Obrigatório,float);  "cpf": - (Obrigatório - string - CPF válido); "name": - (Obrigatório - string)} | Rota usada para criação de uma nova conta                  |
 | /accounts               | GET    | -                                                                                                               | Rota usada para buscar as informações de todas as accounts       |
 | /accounts/{id}          | GET    | -                                                                                                               | Rota usada para buscar as informações de uma account             |
-| /accounts/{id}/ballance | GET    | -                                                                                                               | Rota usada para buscar as informações de ballance de uma account |
-
-
-| ROTAS      | VERBOS | PARÂMETROS                                                                                                                      | OBJETIVO                                                    |
-|------------|--------|---------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------|
-| /transfers | GET    | -                                                                                                                               | Rota usada para buscar as informações de todas as transfers |
-| /transfers | POST   | {"account_destination_id": - (Obrigatório - string); "account_origin_id": - (Obrigatório - string); "amount": - (Obrigatório - float) } | Rota usada para criação de uma nova transfer                |
+| /accounts/{id}/ballance | GET    | -                                                                                                               | Rota usada para buscar as informações de ballance de uma account |    
+                                                                                   
+| ROTAS                   | VERBOS | PARÂMETROS                                                                                                      | OBJETIVO                                                    |
+|------------             |--------|-----------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------|
+| /transfers              | GET    | -                                                                                                               | Rota usada para buscar as informações de todas as transfers |
+| /transfers              | POST   | {"account_destination_id": - (Obrigatório - string); "account_origin_id": - (Obrigatório - string); "amount": - (Obrigatório - float) } | Rota usada para criação de uma nova transfer|
 
 ## Tecnologias usadas
 
