@@ -155,18 +155,19 @@ func (s *Service) GetAllAccounts(w http.ResponseWriter, r *http.Request) {
 	}
 
 	var accountsJson []types.Account
-
 	for _, account := range accounts {
-		accountJson := &types.Account{}
+		if len(account) > 0 {
+			accountJson := &types.Account{}
 
-		err = json.Unmarshal([]byte(account), accountJson)
+			err = json.Unmarshal([]byte(account), accountJson)
 
-		if err != nil {
-			TrowError(w, http.StatusInternalServerError, ErroInesperado)
-			return
+			if err != nil {
+				TrowError(w, http.StatusInternalServerError, ErroInesperado)
+				return
+			}
+
+			accountsJson = append(accountsJson, *accountJson)
 		}
-
-		accountsJson = append(accountsJson, *accountJson)
 	}
 
 	TrowSucess(w, types.SucessResponse{Sucess: true, Data: accountsJson})
@@ -246,16 +247,18 @@ func (s *Service) GetAllTransfers(w http.ResponseWriter, r *http.Request) {
 	var transfersJson []types.Transfer
 
 	for _, transfer := range transfers {
-		transferJson := &types.Transfer{}
+		if len(transfer) > 0 {
+			transferJson := &types.Transfer{}
 
-		err = json.Unmarshal([]byte(transfer), transferJson)
+			err = json.Unmarshal([]byte(transfer), transferJson)
 
-		if err != nil {
-			TrowError(w, http.StatusInternalServerError, ErroInesperado)
-			return
+			if err != nil {
+				TrowError(w, http.StatusInternalServerError, ErroInesperado)
+				return
+			}
+
+			transfersJson = append(transfersJson, *transferJson)
 		}
-
-		transfersJson = append(transfersJson, *transferJson)
 	}
 
 	TrowSucess(w, types.SucessResponse{Sucess: true, Data: transfersJson})

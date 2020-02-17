@@ -21,5 +21,5 @@ func InitRouter(service *service.Service) {
 	router.HandleFunc("/transfers", service.GetAllTransfers).Methods("GET")
 	router.HandleFunc("/transfers", service.CreateTransfer).Methods("POST")
 
-	log.Fatal(http.ListenAndServe(":8000", router))
+	log.Fatal(http.ListenAndServe(":8080", router))
 }
