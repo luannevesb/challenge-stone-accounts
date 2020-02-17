@@ -1,6 +1,7 @@
 package http
 
 import (
+	"fmt"
 	"github.com/gorilla/mux"
 	"github.com/luannevesb/challenge-stone-accounts/internal/stone-app/service"
 	"log"
@@ -21,5 +22,6 @@ func InitRouter(service *service.Service) {
 	router.HandleFunc("/transfers", service.GetAllTransfers).Methods("GET")
 	router.HandleFunc("/transfers", service.CreateTransfer).Methods("POST")
 
+	fmt.Println("API rodando na porta 8080")
 	log.Fatal(http.ListenAndServe(":8080", router))
 }
