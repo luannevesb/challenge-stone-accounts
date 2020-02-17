@@ -4,11 +4,6 @@ export RICHGO_FORCE_COLOR=1
 
 default: test
 
-# Faz o Build
-build: install
-	@echo "Fazendo build..."
-	env GOOS=linux go build -o bin/service cmd/main.go
-
 test: install test-lint test-coverage
 
 setup-local: install
@@ -17,8 +12,6 @@ setup-local: install
 	@go get -u github.com/haya14busa/goverage
 	@go get -u github.com/kyoh86/richgo
 	@go get github.com/joho/godotenv/cmd/godotenv
-	@curl -sfL https://install.goreleaser.com/github.com/golangci/golangci-lint.sh | sh -s -- -b $(GOPATH)/bin v1.15.0
-	@golangci-lint --version
 
 # Instala dependencias
 install:
