@@ -1,10 +1,10 @@
 # Challenge-Stone
 
-API criada para fornecer a possibilidade de criação de contas e de transferência entre elas
+API criada para fornecer a possibilidade de criação de contas e de transferência entre elas.
 
 ### Instalação
 
-Para instalar e deixar a API rodando é muito simples :) Você so precisa dedois comandos...
+Para instalar e deixar a API rodando é muito simples :) Você so precisa de três comandos...
 
 ```
 git clone https://github.com/luannevesb/challenge-stone-accounts.git
@@ -17,7 +17,7 @@ Sua API estará rodando em http://localhost:8000/
 
 ## Rodando os testes
 
-Essa API está equipada com mais de 80% de cobertura de testes unitários, para rodar eles é so digitar o seguinte comando
+Essa API está equipada com mais de 80% de cobertura de testes unitários, para rodar eles é so digitar o seguinte comando...
 
 ```
 make test-coverage

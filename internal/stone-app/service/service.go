@@ -30,27 +30,27 @@ const (
 )
 
 var ValidateMessagesCreateAccount = govalidator.MapData{
-	AttrinuteName:     {"required:O campo é obrigatório", "alpha: O campo tem formato inválido"},
+	AttrinuteName:     {"required:O campo é obrigatório", "string: O campo tem formato inválido"},
 	AttrinuteCPF:      {"required:O campo é obrigatório", "cpf: O CPF é inválido"},
 	AttributeBallance: {"required:O campo é obrigatório", "float: O campo tem formato inválido"},
 }
 
 var ValidateRulesCreateAccount = map[string][]string{
-	AttrinuteName:     {"required", "alpha"},
+	AttrinuteName:     {"required", "string"},
 	AttrinuteCPF:      {"required", "cpf"},
 	AttributeBallance: {"required", "float"},
 }
 
 var ValidateMessagesCreateTransfer = govalidator.MapData{
-	AttributeAccountOriginID:      {"required:O campo é obrigatório"},
-	AttributeAccountDestinationID: {"required:O campo é obrigatório"},
-	AttributeAmount:               {"required:O campo é obrigatório","float: O campo tem formato inválido"},
+	AttributeAccountOriginID:      {"required:O campo é obrigatório", "string: O campo tem formato inválido"},
+	AttributeAccountDestinationID: {"required:O campo é obrigatório", "string: O campo tem formato inválido"},
+	AttributeAmount:               {"required:O campo é obrigatório", "float: O campo tem formato inválido"},
 }
 
 var ValidateRulesCreateTransfer = map[string][]string{
-	AttributeAccountOriginID:      {"required",},
-	AttributeAccountDestinationID: {"required",},
-	AttributeAmount:               {"required","float" },
+	AttributeAccountOriginID:      {"required", "string"},
+	AttributeAccountDestinationID: {"required", "string"},
+	AttributeAmount:               {"required", "float"},
 }
 
 func init() {
@@ -87,7 +87,6 @@ func (s *Service) GetAccount(w http.ResponseWriter, r *http.Request) {
 
 	TrowSucess(w, types.SucessResponse{Sucess: true, Data: account})
 }
-
 
 //Retorna as informações da Account de acordo com o ID ou retorna 404
 func (s *Service) GetAccountBallance(w http.ResponseWriter, r *http.Request) {

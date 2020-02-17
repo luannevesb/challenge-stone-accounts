@@ -6,7 +6,7 @@ import (
 
 func NewStorage() *scribble.Driver {
 	//Cria novo JSON Database (SCRIBBLE)
-	db, _ := scribble.New("./accounts", nil)
+	db, _ := scribble.New("./DB", nil)
 
 	return db
 }

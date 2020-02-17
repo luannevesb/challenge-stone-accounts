@@ -3,10 +3,12 @@ package helper
 import (
 	"bytes"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"github.com/luannevesb/challenge-stone-accounts/internal/stone-app/types"
 	"github.com/thedevsaddam/govalidator"
 	"net/http"
+	"reflect"
 	"regexp"
 	"strconv"
 	"unicode"
@@ -26,6 +28,25 @@ func InitCustomRule() {
 		}
 		return nil
 	})
+
+	govalidator.// validString check the provided field is valid string
+		AddCustomRule("string", func(field string, rule string, message string, value interface{}) error {
+
+			if value == nil {
+				return nil
+			}
+			tp := reflect.TypeOf(value).String()
+			err := fmt.Errorf("The %s should be a string", field)
+			if message != "" {
+				err = errors.New(message)
+			}
+
+			if tp != "string" {
+				return err
+			}
+
+			return nil
+		})
 }
 
 //Valida a request com o BodyJSON
