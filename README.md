@@ -43,7 +43,8 @@ No readme do desafio estava pedindo uma rota chamada ***"balance"*** com um "L" 
 | /accounts               | POST   | { "ballance": - (Obrigatório,float);  "cpf": - (Obrigatório - string - CPF válido); "name": - (Obrigatório - string)} | Rota usada para criação de uma nova conta                  |
 | /accounts               | GET    | -                                                                                                               | Rota usada para buscar as informações de todas as accounts       |
 | /accounts/{id}          | GET    | -                                                                                                               | Rota usada para buscar as informações de uma account             |
-| /accounts/{id}/ballance | GET    | -                                                                                                               | Rota usada para buscar as informações de ballance de uma account |    
+| /accounts/{id}/ballance | GET    | -                                                                                                               | Rota usada para buscar as informações de ballance de uma account |
+    
                                                                                    
 | ROTAS                   | VERBOS | PARÂMETROS                                                                                                      | OBJETIVO                                                    |
 |------------             |--------|-----------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------|
