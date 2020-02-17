@@ -13,7 +13,7 @@ go run cmd/main.go
 ```
 
 Pronto,
-Sua API estará rodando em http://localhost:8000/
+Sua API estará rodando em http://localhost:8080/
 
 ## Rodando os testes
 
