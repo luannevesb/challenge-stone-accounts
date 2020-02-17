@@ -8,6 +8,10 @@ type Account struct {
 	CreatedAt interface{} `json:"created_at"`
 }
 
+type AccountBallance struct {
+	Ballance  float64     `json:"ballance"`
+}
+
 type StorageAccount interface {
 	CreateAccount(account *Account) error
 	GetAccount(id string, account *Account) error

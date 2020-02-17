@@ -148,6 +148,46 @@ func TestService_GetAccount(t *testing.T) {
 	})
 }
 
+//Teste Unitário da função GetAccount do Service
+func TestService_GetAccountBallance(t *testing.T) {
+	srv = setup()
+	t.Run("Teste GetAccountBallance Sucess", func(t *testing.T) {
+
+		storageAccount.OnGetAccount = func(id string, account *types.Account) error {
+			return nil
+		}
+
+		//Criando nova fake request e recorder para teste
+		mockedRequest := httptest.NewRequest(http.MethodGet, "http://localhost:8080/accounts/{id}/ballance", nil)
+		recorder := httptest.NewRecorder()
+
+		srv.GetAccountBallance(recorder, mockedRequest)
+
+		if recorder.Result().StatusCode != http.StatusOK {
+			t.Errorf("Deveria retornar status 200; retornou %d", recorder.Result().StatusCode)
+		}
+
+	})
+
+	t.Run("Teste GetAccountBallance ErroNotFound", func(t *testing.T) {
+
+		storageAccount.OnGetAccount = func(id string, account *types.Account) error {
+			return errors.New("Objeto não encontrado")
+		}
+
+		//Criando nova fake request e recorder para teste
+		mockedRequest := httptest.NewRequest(http.MethodGet, "http://localhost:8080/accounts/{id}/ballance", nil)
+		recorder := httptest.NewRecorder()
+
+		srv.GetAccount(recorder, mockedRequest)
+
+		if recorder.Result().StatusCode != http.StatusNotFound {
+			t.Errorf("Deveria retornar status 404; retornou %d", recorder.Result().StatusCode)
+		}
+
+	})
+}
+
 //Teste Unitário da função GetAllAccounts do Service
 func TestService_GetAllAccounts(t *testing.T) {
 	srv = setup()

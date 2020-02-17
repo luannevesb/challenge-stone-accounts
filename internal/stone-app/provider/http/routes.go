@@ -14,6 +14,7 @@ func InitRouter(service *service.Service) {
 	//Inicia as rotas de accounts e informa qual método interno vai receber a REQUEST
 	router.HandleFunc("/accounts", service.GetAllAccounts).Methods("GET")
 	router.HandleFunc("/accounts/{id}", service.GetAccount).Methods("GET")
+	router.HandleFunc("/accounts/{id}/ballance", service.GetAccountBallance).Methods("GET")
 	router.HandleFunc("/accounts", service.CreateAccount).Methods("POST")
 
 	//Inicia as rotas de transfers e informa qual método interno vai receber a REQUEST

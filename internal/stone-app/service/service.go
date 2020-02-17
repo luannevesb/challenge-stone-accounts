@@ -88,6 +88,28 @@ func (s *Service) GetAccount(w http.ResponseWriter, r *http.Request) {
 	TrowSucess(w, types.SucessResponse{Sucess: true, Data: account})
 }
 
+
+//Retorna as informações da Account de acordo com o ID ou retorna 404
+func (s *Service) GetAccountBallance(w http.ResponseWriter, r *http.Request) {
+	//Recebe os parâmetros da request e seleciona o ID
+	params := mux.Vars(r)
+	id := params["id"]
+
+	account := &types.Account{}
+
+	err := s.storageAccount.GetAccount(id, account)
+
+	if err != nil {
+		TrowError(w, http.StatusNotFound, ErroNotFound)
+		return
+	}
+
+	accountBallance := &types.AccountBallance{}
+	accountBallance.Ballance = account.Ballance
+
+	TrowSucess(w, types.SucessResponse{Sucess: true, Data: accountBallance})
+}
+
 //Cria uma nova Account e retorna se existe account com esse CPF
 func (s *Service) CreateAccount(w http.ResponseWriter, r *http.Request) {
 	//Validação da request para os campos obrigatórios e o CPF
